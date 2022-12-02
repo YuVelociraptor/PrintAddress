@@ -40,14 +40,25 @@ public class Main {
 
             PDFont font = PDType0Font.load(document, new File(fontPath));
 
+            //サイズ指定
+            PDRectangle rec = new PDRectangle();
+            rec.setUpperRightX(0);
+            rec.setUpperRightY(0);
+            rec.setLowerLeftX(100);
+            rec.setLowerLeftY(100);
+
             PDPage page = new PDPage(PDRectangle.A4);
-            page.setRotation(90);
+
+            System.out.println(rec);
+            System.out.println(PDRectangle.A4);
+
+            //page.setRotation(90);
             document.addPage(page);
 
 
-            try (PDPageContentStream content = new PDPageContentStream(document, page, PDPageContentStream.AppendMode.APPEND, false)) {
+            /*try (PDPageContentStream content = new PDPageContentStream(document, page, PDPageContentStream.AppendMode.APPEND, false)) {
                 content.transform(new Matrix(0, 1, -1, 0, page.getMediaBox().getWidth(), 0));
-            }
+            }*/
 
             try (PDPageContentStream content = new PDPageContentStream(document, page, PDPageContentStream.AppendMode.APPEND, false)) {
 
