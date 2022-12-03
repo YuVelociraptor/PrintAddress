@@ -42,31 +42,25 @@ public class Main {
 
             //サイズ指定
             PDRectangle rec = new PDRectangle();
-            rec.setUpperRightX(0);
-            rec.setUpperRightY(0);
-            rec.setLowerLeftX(100);
-            rec.setLowerLeftY(100);
+            rec.setUpperRightX(283.46458f);
+            rec.setUpperRightY(419.52758f);
+            rec.setLowerLeftX(0);
+            rec.setLowerLeftY(0);
 
-            PDPage page = new PDPage(PDRectangle.A4);
+            for(AddressInfo addressInfo:list){
 
-            System.out.println(rec);
-            System.out.println(PDRectangle.A4);
+                PDPage page = new PDPage(rec);
+                document.addPage(page);
 
-            //page.setRotation(90);
-            document.addPage(page);
+                try (PDPageContentStream content = new PDPageContentStream(document, page, PDPageContentStream.AppendMode.APPEND, false)) {
 
+                    content.beginText();
+                    content.setFont(font, 50);
+                    content.newLineAtOffset(10, 20);
+                    content.showText(addressInfo.name);
+                    content.endText();
+                }
 
-            /*try (PDPageContentStream content = new PDPageContentStream(document, page, PDPageContentStream.AppendMode.APPEND, false)) {
-                content.transform(new Matrix(0, 1, -1, 0, page.getMediaBox().getWidth(), 0));
-            }*/
-
-            try (PDPageContentStream content = new PDPageContentStream(document, page, PDPageContentStream.AppendMode.APPEND, false)) {
-
-                content.beginText();
-                content.setFont(font, 50);
-                content.newLineAtOffset(100, 200);
-                content.showText("こんにちは。世界");
-                content.endText();
             }
 
             document.save(outFile);
