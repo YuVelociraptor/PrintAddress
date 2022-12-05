@@ -27,6 +27,7 @@ public class Select {
                     a.address1 = rs.getString("address1");
                     a.address2 = rs.getString("address2");
                     a.name = rs.getString("name");
+                    a.name2 = rs.getString("name2");
 
                     ret.add(a);
                 }

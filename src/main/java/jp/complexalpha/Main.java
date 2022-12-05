@@ -19,7 +19,7 @@ public class Main {
 
     private static boolean RULER_FLAG = false;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
 
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         String now = LocalDateTime.now().format(format);
@@ -33,10 +33,11 @@ public class Main {
         String fontPath = System.getenv("PDF_FONT");
         System.out.println(fontPath);
 
-        ArrayList<AddressInfo> toList = Select.getToInfo();
-        AddressInfo fromInfo = Select.getFromInfo();
 
         try (PDDocument document = new PDDocument()) {
+
+            ArrayList<AddressInfo> toList = Select.getToInfo();
+            AddressInfo fromInfo = Select.getFromInfo();
 
             PDFont font = PDType0Font.load(document, new File(fontPath));
 
@@ -140,12 +141,19 @@ public class Main {
 
                     //住所2
                     if(addressInfo.address2 != null) {
-                        for (int i = 0; i < addressInfo.address2.length(); i++) {
+
+                        String  address2 = addressInfo.address2;
+                        while (address2.length() < 13){
+
+                            address2 = " " + address2;
+                        }
+
+                        for (int i = 0; i < address2.length(); i++) {
 
                             content.beginText();
                             content.setFont(font, taf);
                             content.newLineAtOffset(200, tay - i * taf);
-                            content.showText(addressInfo.address2.substring(i, i + 1));
+                            content.showText(address2.substring(i, i + 1));
                             content.endText();
                         }
                     }
@@ -160,6 +168,27 @@ public class Main {
                             content.setFont(font, 30);
                             content.newLineAtOffset(140, 320 - i * 30);
                             content.showText(name.substring(i, i + 1));
+                            content.endText();
+                        }
+                    }
+
+                    // 名前2
+                    if(addressInfo.name2 != null) {
+
+                        String name2 = addressInfo.name2;
+
+                        while (name2.length() < addressInfo.name.length()){
+
+                            name2 = " " + name2;
+                        }
+
+                        name2 = name2 + "様";
+                        for (int i = 0; i < name2.length(); i++) {
+
+                            content.beginText();
+                            content.setFont(font, 30);
+                            content.newLineAtOffset(110, 320 - i * 30);
+                            content.showText(name2.substring(i, i + 1));
                             content.endText();
                         }
                     }
@@ -237,6 +266,9 @@ public class Main {
             }
 
             document.save(outFile);
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }

@@ -7,4 +7,5 @@ public class AddressInfo {
     public String address1;
     public String address2;
     public String name;
+    public String name2;
 }
