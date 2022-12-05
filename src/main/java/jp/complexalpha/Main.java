@@ -17,9 +17,9 @@ import java.util.ArrayList;
 
 public class Main {
 
-    private static boolean RULER_FLAG = false;
+    private final static boolean RULER_FLAG = false;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
 
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         String now = LocalDateTime.now().format(format);
@@ -33,10 +33,10 @@ public class Main {
         String fontPath = System.getenv("PDF_FONT");
         System.out.println(fontPath);
 
-        ArrayList<AddressInfo> toList = Select.getToInfo();
-        AddressInfo fromInfo = Select.getFromInfo();
-
         try (PDDocument document = new PDDocument()) {
+
+            ArrayList<AddressInfo> toList = Select.getToInfo();
+            AddressInfo fromInfo = Select.getFromInfo();
 
             PDFont font = PDType0Font.load(document, new File(fontPath));
 
@@ -237,6 +237,9 @@ public class Main {
             }
 
             document.save(outFile);
+
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
 }
