@@ -7,7 +7,7 @@ public class Select {
 
     private final static String url = "jdbc:sqlite:" + System.getenv("ADDRESS_SQLITE");;
 
-    public static ArrayList<AddressInfo> getToInfo() throws SQLException {
+    public static ArrayList<ToAddressInfo> getToInfo() throws SQLException {
 
         String sql = "select * from to_info order by id";
 
@@ -18,15 +18,17 @@ public class Select {
 
             try(ResultSet rs = ps.executeQuery()){
 
-                ArrayList<AddressInfo> ret = new ArrayList<AddressInfo>();
+                ArrayList<ToAddressInfo> ret = new ArrayList<ToAddressInfo>();
                 while (rs.next()) {
 
-                    AddressInfo a = new AddressInfo();
+                    ToAddressInfo a = new ToAddressInfo();
                     a.id = rs.getInt("id");
                     a.zipCode = rs.getString("zip_code");
                     a.address1 = rs.getString("address1");
                     a.address2 = rs.getString("address2");
-                    a.name = rs.getString("name");
+                    a.family_name = rs.getString("family_name");
+                    a.first_name1 = rs.getString("first_name1");
+                    a.honorific_title1 = rs.getString("honorific_title1");
 
                     ret.add(a);
                 }
@@ -41,7 +43,7 @@ public class Select {
         }
     }
 
-    public static AddressInfo getFromInfo() throws SQLException {
+    public static FromAddressInfo getFromInfo() throws SQLException {
 
         String sql = "select * from from_info where in_use = 1";
 
@@ -52,10 +54,10 @@ public class Select {
 
             try(ResultSet rs = ps.executeQuery()){
 
-                ArrayList<AddressInfo> ret = new ArrayList<AddressInfo>();
+                ArrayList<FromAddressInfo> ret = new ArrayList<FromAddressInfo>();
                 while (rs.next()) {
 
-                    AddressInfo a = new AddressInfo();
+                    FromAddressInfo a = new FromAddressInfo();
                     a.id = rs.getInt("id");
                     a.zipCode = rs.getString("zip_code");
                     a.address1 = rs.getString("address1");

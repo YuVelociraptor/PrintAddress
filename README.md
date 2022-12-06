@@ -18,13 +18,15 @@ export PDF_FONT=フォントファイルへのパス
 ```
 create table main.to_info
 (
-    id       INTEGER
+    id               integer
         constraint to_info_pk
             primary key,
-    zip_code TEXT,
-    address1 TEXT,
-    address2 TEXT,
-    name     TEXT
+    zip_code         text,
+    address1         text,
+    address2         text,
+    family_name      text,
+    first_name1      text,
+    honorific_title1 text
 );
 ```
 - 差出人テーブル
