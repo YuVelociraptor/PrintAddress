@@ -33,14 +33,15 @@ create table main.to_info
 ```
 create table main.from_info
 (
-    id       integer
+    id           integer
         constraint to_info_pk
             primary key,
-    zip_code text,
-    address1 text,
-    address2 text,
-    name     text,
-    in_use   integer default 0
+    zip_code     text,
+    address1     text,
+    address2     text,
+    phone_number text,
+    name         text,
+    in_use       integer default 0
 );
 // in_useを1に指定したレコードを使用する（複数ある場合は取得順の1件目）
 ```
