@@ -180,17 +180,11 @@ public class Main {
                     int nf = 12;
                     float ay = 230;
 
-                    // From Address1
-                    if(fromInfo.address1 != null) {
+                    ArrayList<String> fromAddressses = new ArrayList<>();
 
-                        for (int i = 0; i < fromInfo.address1.length(); i++) {
-
-                            content.beginText();
-                            content.setFont(font, nf);
-                            content.newLineAtOffset(60, ay - i * nf);
-                            content.showText(fromInfo.address1.substring(i, i + 1));
-                            content.endText();
-                        }
+                    // Phone Number
+                    if(fromInfo.phoneNumber != null){
+                        fromAddressses.add(fromInfo.phoneNumber);
                     }
 
                     // From Address2
@@ -202,14 +196,27 @@ public class Main {
                             address2 = " " + address2;
                         }
 
-                        for (int i = 0; i < address2.length(); i++) {
+                        fromAddressses.add(address2);
+                    }
+
+                    // From Address1
+                    if(fromInfo.address1 != null) {
+                        fromAddressses.add(fromInfo.address1);
+                    }
+
+                    int index = 0;
+                    for(String s:fromAddressses){
+
+                        for (int i = 0; i < s.length(); i++) {
 
                             content.beginText();
-                            content.setFont(font, 12);
-                            content.newLineAtOffset(40, ay - i * nf);
-                            content.showText(address2.substring(i, i + 1));
+                            content.setFont(font, nf);
+                            content.newLineAtOffset(40 + 20 * index, ay - i * nf);
+                            content.showText(s.substring(i, i + 1));
                             content.endText();
                         }
+
+                        index++;
                     }
 
                     // From Name

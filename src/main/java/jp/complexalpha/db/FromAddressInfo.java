@@ -7,4 +7,5 @@ public class FromAddressInfo {
     public String address1;
     public String address2;
     public String name;
+    public String phoneNumber;
 }

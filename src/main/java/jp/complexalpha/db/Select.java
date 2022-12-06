@@ -62,6 +62,7 @@ public class Select {
                     a.zipCode = rs.getString("zip_code");
                     a.address1 = rs.getString("address1");
                     a.address2 = rs.getString("address2");
+                    a.phoneNumber = rs.getString("phone_number");
                     a.name = rs.getString("name");
 
                     ret.add(a);
