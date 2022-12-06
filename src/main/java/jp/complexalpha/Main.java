@@ -1,6 +1,7 @@
 package jp.complexalpha;
 
-import jp.complexalpha.db.AddressInfo;
+import jp.complexalpha.db.FromAddressInfo;
+import jp.complexalpha.db.ToAddressInfo;
 import jp.complexalpha.db.Select;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -35,19 +36,19 @@ public class Main {
 
         try (PDDocument document = new PDDocument()) {
 
-            ArrayList<AddressInfo> toList = Select.getToInfo();
-            AddressInfo fromInfo = Select.getFromInfo();
+            ArrayList<ToAddressInfo> toList = Select.getToInfo();
+            FromAddressInfo fromInfo = Select.getFromInfo();
 
             PDFont font = PDType0Font.load(document, new File(fontPath));
 
-            //サイズ指定
+            // Post card size
             PDRectangle rec = new PDRectangle();
             rec.setUpperRightX(283.46458f);
             rec.setUpperRightY(419.52758f);
             rec.setLowerLeftX(0);
             rec.setLowerLeftY(0);
 
-            for(AddressInfo addressInfo:toList){
+            for(ToAddressInfo addressInfo:toList){
 
                 PDPage page = new PDPage(rec);
                 document.addPage(page);
@@ -103,7 +104,7 @@ public class Main {
                         float zx = 124;
                         float zy = 366;
 
-                        // Zip code 前3桁
+                        // Zip code front 3
                         for(int i = 0; i < 3; i++){
 
                             content.beginText();
@@ -113,7 +114,7 @@ public class Main {
                             content.endText();
                         }
 
-                        // Zip code 後4桁
+                        // Zip code back 4
                         for(int i = 3; i < 7; i++){
 
                             content.beginText();
@@ -124,7 +125,7 @@ public class Main {
                         }
                     }
 
-                    //住所1
+                    // Address1
                     int taf = 22;
                     float tay = 340;
                     if(addressInfo.address1 != null) {
@@ -138,7 +139,7 @@ public class Main {
                         }
                     }
 
-                    //住所2
+                    // Address2
                     if(addressInfo.address2 != null) {
                         for (int i = 0; i < addressInfo.address2.length(); i++) {
 
@@ -150,25 +151,36 @@ public class Main {
                         }
                     }
 
-                    // 名前
-                    if(addressInfo.name != null) {
-
-                        String name = addressInfo.name + "様";
-                        for (int i = 0; i < name.length(); i++) {
-
-                            content.beginText();
-                            content.setFont(font, 30);
-                            content.newLineAtOffset(140, 320 - i * 30);
-                            content.showText(name.substring(i, i + 1));
-                            content.endText();
-                        }
+                    // Name
+                    String name = "";
+                    if(addressInfo.family_name != null) {
+                        name += addressInfo.family_name;
                     }
 
-                    // 差出人住所名前フォントサイズ
+                    if(addressInfo.first_name1 != null){
+                        if(!name.equals("")){
+                            name += " ";
+                        }
+                        name += addressInfo.first_name1;
+                    }
+
+                    if(addressInfo.honorific_title1 != null){
+                        name += addressInfo.honorific_title1;
+                    }
+
+                    for (int i = 0; i < name.length(); i++) {
+                        content.beginText();
+                        content.setFont(font, 30);
+                        content.newLineAtOffset(140, 320 - i * 30);
+                        content.showText(name.substring(i, i + 1));
+                        content.endText();
+                    }
+
+                    // From Address Font size
                     int nf = 12;
                     float ay = 230;
 
-                    // 差出人 住所1
+                    // From Address1
                     if(fromInfo.address1 != null) {
 
                         for (int i = 0; i < fromInfo.address1.length(); i++) {
@@ -181,7 +193,7 @@ public class Main {
                         }
                     }
 
-                    // 差出人 住所2
+                    // From Address2
                     if(fromInfo.address2 != null) {
 
                         String  address2 = fromInfo.address2;
@@ -200,7 +212,7 @@ public class Main {
                         }
                     }
 
-                    // 差出人 名前
+                    // From Name
                     if(fromInfo.name != null){
                         for (int i = 0; i < fromInfo.name.length(); i++) {
 
@@ -212,20 +224,20 @@ public class Main {
                         }
                     }
 
-                    // 差出人 Zip Code
+                    // From Zip Code
                     if(fromInfo.zipCode != null) {
 
                         int zf = 21;
                         float zx = 14;
                         float zy = 53;
-                        // Zip code 前3桁
+                        // Zip code Front 3
                         content.beginText();
                         content.setFont(font, zf);
                         content.newLineAtOffset(zx, zy);
                         content.showText(fromInfo.zipCode.substring(0, 3));
                         content.endText();
 
-                        // Zip code 前4桁
+                        // Zip code back 4
                         content.beginText();
                         content.setFont(font, zf);
                         content.newLineAtOffset(zx + 37, zy);
