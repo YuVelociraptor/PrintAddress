@@ -126,7 +126,7 @@ public class Main {
                     }
 
                     // To Address
-                    ArrayList<String> toAddresses = new ArrayList<String>();
+                    ArrayList<String> toAddresses = new ArrayList<>();
                     int addressLetters = 13;
 
                     // Address1
