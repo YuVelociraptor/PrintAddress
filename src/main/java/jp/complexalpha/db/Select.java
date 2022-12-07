@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Select {
 
-    private final static String url = "jdbc:sqlite:" + System.getenv("ADDRESS_SQLITE");;
+    private final static String url = "jdbc:sqlite:" + System.getenv("ADDRESS_SQLITE");
 
     public static ArrayList<ToAddressInfo> getToInfo() throws SQLException {
 
@@ -13,12 +13,12 @@ public class Select {
 
         try(
                 Connection conn = DriverManager.getConnection(url);
-                PreparedStatement ps = conn.prepareStatement(sql);
+                PreparedStatement ps = conn.prepareStatement(sql)
                 ){
 
             try(ResultSet rs = ps.executeQuery()){
 
-                ArrayList<ToAddressInfo> ret = new ArrayList<ToAddressInfo>();
+                ArrayList<ToAddressInfo> ret = new ArrayList<>();
                 while (rs.next()) {
 
                     ToAddressInfo a = new ToAddressInfo();
@@ -49,12 +49,12 @@ public class Select {
 
         try(
                 Connection conn = DriverManager.getConnection(url);
-                PreparedStatement ps = conn.prepareStatement(sql);
+                PreparedStatement ps = conn.prepareStatement(sql)
         ){
 
             try(ResultSet rs = ps.executeQuery()){
 
-                ArrayList<FromAddressInfo> ret = new ArrayList<FromAddressInfo>();
+                ArrayList<FromAddressInfo> ret = new ArrayList<>();
                 while (rs.next()) {
 
                     FromAddressInfo a = new FromAddressInfo();
