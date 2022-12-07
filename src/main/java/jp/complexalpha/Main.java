@@ -125,30 +125,51 @@ public class Main {
                         }
                     }
 
-                    // Address1
-                    int taf = 22;
-                    float tay = 340;
-                    if(addressInfo.address1 != null) {
-                        for (int i = 0; i < addressInfo.address1.length(); i++) {
+                    // To Address
+                    ArrayList<String> toAddresses = new ArrayList<String>();
+                    int addressLetters = 13;
 
-                            content.beginText();
-                            content.setFont(font, taf);
-                            content.newLineAtOffset(235, tay - i * taf);
-                            content.showText(addressInfo.address1.substring(i, i + 1));
-                            content.endText();
+                    // Address1
+                    if(addressInfo.address1 != null) {
+
+                        toAddresses.add(addressInfo.address1);
+
+                        if(addressInfo.address1.length() > addressLetters){
+                            addressLetters = addressInfo.address1.length();
                         }
                     }
 
                     // Address2
                     if(addressInfo.address2 != null) {
-                        for (int i = 0; i < addressInfo.address2.length(); i++) {
+
+                        String  address2 = addressInfo.address2;
+                        while (address2.length() < 13){
+
+                            address2 = " " + address2;
+                        }
+                        toAddresses.add(address2);
+
+                        if(address2.length() > addressLetters){
+                            addressLetters = address2.length();
+                        }
+                    }
+
+                    int taf = 286 / addressLetters;
+                    float tay = 340;
+
+                    int toIndex = 0;
+                    for(String s:toAddresses){
+
+                        for (int i = 0; i < s.length(); i++) {
 
                             content.beginText();
                             content.setFont(font, taf);
-                            content.newLineAtOffset(200, tay - i * taf);
-                            content.showText(addressInfo.address2.substring(i, i + 1));
+                            content.newLineAtOffset(235 - 35 * toIndex, tay - i * taf);
+                            content.showText(s.substring(i, i + 1));
                             content.endText();
                         }
+
+                        toIndex++;
                     }
 
                     // Name
@@ -204,19 +225,19 @@ public class Main {
                         fromAddressses.add(fromInfo.address1);
                     }
 
-                    int index = 0;
+                    int fromIndex = 0;
                     for(String s:fromAddressses){
 
                         for (int i = 0; i < s.length(); i++) {
 
                             content.beginText();
                             content.setFont(font, nf);
-                            content.newLineAtOffset(40 + 20 * index, ay - i * nf);
+                            content.newLineAtOffset(40 + 20 * fromIndex, ay - i * nf);
                             content.showText(s.substring(i, i + 1));
                             content.endText();
                         }
 
-                        index++;
+                        fromIndex++;
                     }
 
                     // From Name
