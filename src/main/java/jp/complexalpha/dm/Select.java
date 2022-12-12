@@ -1,4 +1,7 @@
-package jp.complexalpha.dto;
+package jp.complexalpha.dm;
+
+import jp.complexalpha.dto.FromAddressInfo;
+import jp.complexalpha.dto.ToAddressInfo;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -2,7 +2,7 @@ package jp.complexalpha;
 
 import jp.complexalpha.dto.FromAddressInfo;
 import jp.complexalpha.dto.ToAddressInfo;
-import jp.complexalpha.dto.Select;
+import jp.complexalpha.dm.Select;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
