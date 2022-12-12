@@ -1,8 +1,8 @@
 package jp.complexalpha;
 
-import jp.complexalpha.db.FromAddressInfo;
-import jp.complexalpha.db.ToAddressInfo;
-import jp.complexalpha.db.Select;
+import jp.complexalpha.dto.FromAddressInfo;
+import jp.complexalpha.dto.ToAddressInfo;
+import jp.complexalpha.dto.Select;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;

@@ -1,4 +1,4 @@
-package jp.complexalpha.db;
+package jp.complexalpha.dto;
 
 import java.sql.*;
 import java.util.ArrayList;

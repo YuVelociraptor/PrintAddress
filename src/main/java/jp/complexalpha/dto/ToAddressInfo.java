@@ -1,4 +1,4 @@
-package jp.complexalpha.db;
+package jp.complexalpha.dto;
 
 public class ToAddressInfo {
 
