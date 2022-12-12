@@ -19,6 +19,9 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox
     implementation("org.apache.pdfbox:pdfbox:2.0.27")
 
+    // https://mvnrepository.com/artifact/org.mybatis/mybatis
+    implementation("org.mybatis:mybatis:3.5.11")
+
 }
 
 tasks.getByName<Test>("test") {
