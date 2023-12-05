@@ -17,7 +17,10 @@ import java.util.ArrayList;
 
 public class Main {
 
-    private static boolean RULER_FLAG = false;
+    private static boolean RULER_FLAG = true;
+
+    private static int TO_NAME_FONT_SIZE = 30;
+    private static int TO_NAME_ST_X = 140;
 
     public static void main(String[] args) {
 
@@ -133,7 +136,7 @@ public class Main {
 
                             content.beginText();
                             content.setFont(font, taf);
-                            content.newLineAtOffset(235, tay - i * taf);
+                            content.newLineAtOffset(250, tay - i * taf);
                             content.showText(addressInfo.address1.substring(i, i + 1));
                             content.endText();
                         }
@@ -152,44 +155,45 @@ public class Main {
 
                             content.beginText();
                             content.setFont(font, taf);
-                            content.newLineAtOffset(200, tay - i * taf);
+                            content.newLineAtOffset(220, tay - i * taf);
                             content.showText(address2.substring(i, i + 1));
                             content.endText();
                         }
                     }
 
-                    // 名前
-                    if(addressInfo.name != null) {
+                    // 名字
+                    if(addressInfo.family_name != null) {
 
-                        String name = addressInfo.name + "様";
+                        String name = addressInfo.family_name;
                         for (int i = 0; i < name.length(); i++) {
 
                             content.beginText();
-                            content.setFont(font, 30);
-                            content.newLineAtOffset(140, 320 - i * 30);
+                            content.setFont(font, TO_NAME_FONT_SIZE);
+                            content.newLineAtOffset(TO_NAME_ST_X, 320 - i * 30);
                             content.showText(name.substring(i, i + 1));
                             content.endText();
                         }
                     }
 
-                    // 名前2
-                    if(addressInfo.name2 != null) {
+                    // 名前
+                    if(addressInfo.first_names != null) {
 
-                        String name2 = addressInfo.name2;
+                        int cnt = 0;
+                        String[] firstNamesArray = addressInfo.first_names.split(",");
 
-                        while (name2.length() < addressInfo.name.length()){
+                        for(String n:firstNamesArray){
 
-                            name2 = " " + name2;
-                        }
+                            String wn = n + "様";
 
-                        name2 = name2 + "様";
-                        for (int i = 0; i < name2.length(); i++) {
+                            for (int i = 0; i < wn.length(); i++) {
 
-                            content.beginText();
-                            content.setFont(font, 30);
-                            content.newLineAtOffset(110, 320 - i * 30);
-                            content.showText(name2.substring(i, i + 1));
-                            content.endText();
+                                content.beginText();
+                                content.setFont(font, TO_NAME_FONT_SIZE);
+                                content.newLineAtOffset(TO_NAME_ST_X - cnt * TO_NAME_FONT_SIZE + (firstNamesArray.length - 1) * 0.5f * TO_NAME_FONT_SIZE, 320 - TO_NAME_FONT_SIZE * (addressInfo.family_name.length() + 1) - i * TO_NAME_FONT_SIZE);
+                                content.showText(wn.substring(i, i + 1));
+                                content.endText();
+                            }
+                            cnt++;
                         }
                     }
 
@@ -230,13 +234,24 @@ public class Main {
                     }
 
                     // 差出人 名前
-                    if(fromInfo.name != null){
-                        for (int i = 0; i < fromInfo.name.length(); i++) {
+                    if(fromInfo.family_name != null){
+                        for (int i = 0; i < fromInfo.family_name.length(); i++) {
 
                             content.beginText();
                             content.setFont(font, nf);
                             content.newLineAtOffset(20, 190 - i * nf);
-                            content.showText(fromInfo.name.substring(i, i + 1));
+                            content.showText(fromInfo.family_name.substring(i, i + 1));
+                            content.endText();
+                        }
+                    }
+
+                    if(fromInfo.first_names != null){
+                        for (int i = 0; i < fromInfo.first_names.length(); i++) {
+
+                            content.beginText();
+                            content.setFont(font, nf);
+                            content.newLineAtOffset(20, 190 - i * nf - fromInfo.family_name.length() * nf);
+                            content.showText(fromInfo.first_names.substring(i, i + 1));
                             content.endText();
                         }
                     }
