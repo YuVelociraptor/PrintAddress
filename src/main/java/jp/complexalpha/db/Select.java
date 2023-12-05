@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Select {
 
-    private final static String url = "jdbc:sqlite:" + System.getenv("ADDRESS_SQLITE");;
+    private final static String url = "jdbc:sqlite:" + System.getenv("ADDRESS_SQLITE");
 
     public static ArrayList<AddressInfo> getToInfo() throws SQLException {
 
@@ -26,8 +26,8 @@ public class Select {
                     a.zipCode = rs.getString("zip_code");
                     a.address1 = rs.getString("address1");
                     a.address2 = rs.getString("address2");
-                    a.name = rs.getString("name");
-                    a.name2 = rs.getString("name2");
+                    a.family_name = rs.getString("family_name");
+                    a.first_names = rs.getString("first_names");
 
                     ret.add(a);
                 }
@@ -61,7 +61,8 @@ public class Select {
                     a.zipCode = rs.getString("zip_code");
                     a.address1 = rs.getString("address1");
                     a.address2 = rs.getString("address2");
-                    a.name = rs.getString("name");
+                    a.family_name = rs.getString("family_name");
+                    a.first_names = rs.getString("first_names");
 
                     ret.add(a);
                 }
