@@ -6,6 +6,6 @@ public class AddressInfo {
     public String zipCode;
     public String address1;
     public String address2;
-    public String name;
-    public String name2;
+    public String family_name;
+    public String first_names;
 }
