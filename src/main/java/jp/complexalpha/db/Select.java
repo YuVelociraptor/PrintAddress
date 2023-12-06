@@ -9,7 +9,7 @@ public class Select {
 
     public static ArrayList<AddressInfo> getToInfo() throws SQLException {
 
-        String sql = "select * from to_info order by id";
+        String sql = "select * from to_info where not_send = 0 order by id";
 
         try(
                 Connection conn = DriverManager.getConnection(url);
