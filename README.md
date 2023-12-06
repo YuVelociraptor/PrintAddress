@@ -16,7 +16,7 @@ export PDF_FONT=フォントファイルへのパス
 ##### テーブル
 - 宛先テーブル
 ```
-create table main.to_info
+create table to_info
 (
     id               integer
         constraint to_info_pk
@@ -25,13 +25,14 @@ create table main.to_info
     address1         text,
     address2         text,
     family_name      text,
-    first_name1      text,
-    honorific_title1 text
+    first_names      text,
+    honorific_title1 text,
+    not_send         integer default 0 not null
 );
 ```
 - 差出人テーブル
 ```
-create table main.from_info
+create table from_info
 (
     id           integer
         constraint to_info_pk
@@ -39,9 +40,10 @@ create table main.from_info
     zip_code     text,
     address1     text,
     address2     text,
+    family_name  text,
+    in_use       integer default 0,
     phone_number text,
-    name         text,
-    in_use       integer default 0
+    first_names  text
 );
 // in_useを1に指定したレコードを使用する（複数ある場合は取得順の1件目）
 ```
