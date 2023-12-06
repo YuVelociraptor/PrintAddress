@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class Main {
 
-    private static boolean RULER_FLAG = true;
+    private static boolean RULER_FLAG = false;
 
     private static int TO_NAME_FONT_SIZE = 30;
     private static int TO_NAME_ST_X = 140;
@@ -102,10 +102,11 @@ public class Main {
                     // Zip code
                     if(addressInfo.zipCode != null) {
 
-                        int zf = 27;
+                        int zf = 20;
                         float delta = 20;
+                        float delta2 = 19;
                         float zx = 124;
-                        float zy = 366;
+                        float zy = 360;
 
                         // Zip code 前3桁
                         for(int i = 0; i < 3; i++){
@@ -122,7 +123,7 @@ public class Main {
 
                             content.beginText();
                             content.setFont(font, zf);
-                            content.newLineAtOffset(2 + zx + delta * i, zy);
+                            content.newLineAtOffset(2 + zx + delta2 * i, zy);
                             content.showText(addressInfo.zipCode.substring(i, i + 1));
                             content.endText();
                         }
@@ -199,7 +200,7 @@ public class Main {
 
                     // 差出人住所名前フォントサイズ
                     int nf = 12;
-                    float ay = 230;
+                    float ay = 240;
 
                     // 差出人 住所1
                     if(fromInfo.address1 != null) {
@@ -250,7 +251,7 @@ public class Main {
 
                             content.beginText();
                             content.setFont(font, nf);
-                            content.newLineAtOffset(20, 190 - i * nf - fromInfo.family_name.length() * nf);
+                            content.newLineAtOffset(20, 190 - i * nf - (fromInfo.family_name.length() + 1) * nf);
                             content.showText(fromInfo.first_names.substring(i, i + 1));
                             content.endText();
                         }
@@ -259,9 +260,9 @@ public class Main {
                     // 差出人 Zip Code
                     if(fromInfo.zipCode != null) {
 
-                        int zf = 21;
-                        float zx = 14;
-                        float zy = 53;
+                        int zf = 15;
+                        float zx = 19;
+                        float zy = 67;
                         // Zip code 前3桁
                         content.beginText();
                         content.setFont(font, zf);
