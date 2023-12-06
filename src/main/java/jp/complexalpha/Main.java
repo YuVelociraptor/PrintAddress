@@ -11,18 +11,20 @@ import org.apache.pdfbox.pdmodel.font.PDType0Font;
 
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Main {
 
-    private static boolean RULER_FLAG = false;
+    private final static boolean RULER_FLAG = false;
 
     private static int TO_NAME_FONT_SIZE = 30;
     private static int TO_NAME_ST_X = 140;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         String now = LocalDateTime.now().format(format);
@@ -36,7 +38,6 @@ public class Main {
         String fontPath = System.getenv("PDF_FONT");
         System.out.println(fontPath);
 
-
         try (PDDocument document = new PDDocument()) {
 
             ArrayList<AddressInfo> toList = Select.getToInfo();
@@ -44,21 +45,21 @@ public class Main {
 
             PDFont font = PDType0Font.load(document, new File(fontPath));
 
-            //サイズ指定
+            // Post card size
             PDRectangle rec = new PDRectangle();
             rec.setUpperRightX(283.46458f);
             rec.setUpperRightY(419.52758f);
             rec.setLowerLeftX(0);
             rec.setLowerLeftY(0);
 
-            for(AddressInfo addressInfo:toList){
+            for (AddressInfo addressInfo : toList) {
 
                 PDPage page = new PDPage(rec);
                 document.addPage(page);
 
                 try (PDPageContentStream content = new PDPageContentStream(document, page, PDPageContentStream.AppendMode.APPEND, false)) {
 
-                    if(RULER_FLAG) {
+                    if (RULER_FLAG) {
                         content.moveTo(0, 0);
                         content.lineTo(page.getMediaBox().getWidth(), 0);
 
@@ -100,7 +101,7 @@ public class Main {
                     }
 
                     // Zip code
-                    if(addressInfo.zipCode != null) {
+                    if (addressInfo.zipCode != null) {
 
                         int zf = 20;
                         float delta = 20;
@@ -108,18 +109,18 @@ public class Main {
                         float zx = 124;
                         float zy = 360;
 
-                        // Zip code 前3桁
-                        for(int i = 0; i < 3; i++){
+                        // Zip code front 3
+                        for (int i = 0; i < 3; i++) {
 
                             content.beginText();
                             content.setFont(font, zf);
                             content.newLineAtOffset(zx + delta * i, zy);
-                            content.showText(addressInfo.zipCode.substring(i, i+1));
+                            content.showText(addressInfo.zipCode.substring(i, i + 1));
                             content.endText();
                         }
 
-                        // Zip code 後4桁
-                        for(int i = 3; i < 7; i++){
+                        // Zip code back 4
+                        for (int i = 3; i < 7; i++) {
 
                             content.beginText();
                             content.setFont(font, zf);
@@ -129,12 +130,16 @@ public class Main {
                         }
                     }
 
-                    //住所1
+                    // To Address
+                    ArrayList<String> toAddresses = new ArrayList<>();
+                    int addressLetters = 13;
+
                     int taf = 22;
                     float tay = 340;
-                    if(addressInfo.address1 != null) {
-                        for (int i = 0; i < addressInfo.address1.length(); i++) {
 
+                    // Address1
+                    if (addressInfo.address1 != null) {
+                        for (int i = 0; i < addressInfo.address1.length(); i++) {
                             content.beginText();
                             content.setFont(font, taf);
                             content.newLineAtOffset(250, tay - i * taf);
@@ -143,11 +148,11 @@ public class Main {
                         }
                     }
 
-                    //住所2
-                    if(addressInfo.address2 != null) {
+                    // Address2
+                    if (addressInfo.address2 != null) {
 
-                        String  address2 = addressInfo.address2;
-                        while (address2.length() < 13){
+                        String address2 = addressInfo.address2;
+                        while (address2.length() < 13) {
 
                             address2 = " " + address2;
                         }
@@ -160,10 +165,12 @@ public class Main {
                             content.showText(address2.substring(i, i + 1));
                             content.endText();
                         }
+
+                        //toIndex++;
                     }
 
                     // 名字
-                    if(addressInfo.family_name != null) {
+                    if (addressInfo.family_name != null) {
 
                         String name = addressInfo.family_name;
                         for (int i = 0; i < name.length(); i++) {
@@ -173,16 +180,18 @@ public class Main {
                             content.newLineAtOffset(TO_NAME_ST_X, 320 - i * 30);
                             content.showText(name.substring(i, i + 1));
                             content.endText();
+
                         }
+                        //name += addressInfo.first_name1;
                     }
 
                     // 名前
-                    if(addressInfo.first_names != null) {
+                    if (addressInfo.first_names != null) {
 
                         int cnt = 0;
                         String[] firstNamesArray = addressInfo.first_names.split(",");
 
-                        for(String n:firstNamesArray){
+                        for (String n : firstNamesArray) {
 
                             String wn = n + "様";
 
@@ -204,9 +213,7 @@ public class Main {
 
                     // 差出人 住所1
                     if(fromInfo.address1 != null) {
-
                         for (int i = 0; i < fromInfo.address1.length(); i++) {
-
                             content.beginText();
                             content.setFont(font, nf);
                             content.newLineAtOffset(60, ay - i * nf);
@@ -215,17 +222,16 @@ public class Main {
                         }
                     }
 
-                    // 差出人 住所2
-                    if(fromInfo.address2 != null) {
+                    // From Address2
+                    if (fromInfo.address2 != null) {
 
-                        String  address2 = fromInfo.address2;
-                        while (address2.length() < 14){
+                        String address2 = fromInfo.address2;
+                        while (address2.length() < 14) {
 
                             address2 = " " + address2;
                         }
 
                         for (int i = 0; i < address2.length(); i++) {
-
                             content.beginText();
                             content.setFont(font, 12);
                             content.newLineAtOffset(40, ay - i * nf);
@@ -235,7 +241,7 @@ public class Main {
                     }
 
                     // 差出人 名前
-                    if(fromInfo.family_name != null){
+                    if (fromInfo.family_name != null) {
                         for (int i = 0; i < fromInfo.family_name.length(); i++) {
 
                             content.beginText();
@@ -246,7 +252,7 @@ public class Main {
                         }
                     }
 
-                    if(fromInfo.first_names != null){
+                    if (fromInfo.first_names != null) {
                         for (int i = 0; i < fromInfo.first_names.length(); i++) {
 
                             content.beginText();
@@ -257,20 +263,21 @@ public class Main {
                         }
                     }
 
-                    // 差出人 Zip Code
-                    if(fromInfo.zipCode != null) {
+                    // From Zip Code
+                    if (fromInfo.zipCode != null) {
 
                         int zf = 15;
                         float zx = 19;
                         float zy = 67;
                         // Zip code 前3桁
+
                         content.beginText();
                         content.setFont(font, zf);
                         content.newLineAtOffset(zx, zy);
                         content.showText(fromInfo.zipCode.substring(0, 3));
                         content.endText();
 
-                        // Zip code 前4桁
+                        // Zip code back 4
                         content.beginText();
                         content.setFont(font, zf);
                         content.newLineAtOffset(zx + 37, zy);
@@ -283,8 +290,6 @@ public class Main {
 
             document.save(outFile);
 
-        }catch (Exception e){
-            e.printStackTrace();
         }
     }
 }

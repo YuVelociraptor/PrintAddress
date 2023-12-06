@@ -13,12 +13,12 @@ public class Select {
 
         try(
                 Connection conn = DriverManager.getConnection(url);
-                PreparedStatement ps = conn.prepareStatement(sql);
+                PreparedStatement ps = conn.prepareStatement(sql)
                 ){
 
             try(ResultSet rs = ps.executeQuery()){
 
-                ArrayList<AddressInfo> ret = new ArrayList<AddressInfo>();
+                ArrayList<AddressInfo> ret = new ArrayList<>();
                 while (rs.next()) {
 
                     AddressInfo a = new AddressInfo();
@@ -48,12 +48,12 @@ public class Select {
 
         try(
                 Connection conn = DriverManager.getConnection(url);
-                PreparedStatement ps = conn.prepareStatement(sql);
+                PreparedStatement ps = conn.prepareStatement(sql)
         ){
 
             try(ResultSet rs = ps.executeQuery()){
 
-                ArrayList<AddressInfo> ret = new ArrayList<AddressInfo>();
+                ArrayList<AddressInfo> ret = new ArrayList<>();
                 while (rs.next()) {
 
                     AddressInfo a = new AddressInfo();
