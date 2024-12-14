@@ -106,8 +106,8 @@ public class Main {
                         int zf = 20;
                         float delta = 20;
                         float delta2 = 19;
-                        float zx = 124;
-                        float zy = 360;
+                        float zx = 125;
+                        float zy = 365;
 
                         // Zip code front 3
                         for (int i = 0; i < 3; i++) {
@@ -124,7 +124,7 @@ public class Main {
 
                             content.beginText();
                             content.setFont(font, zf);
-                            content.newLineAtOffset(2 + zx + delta2 * i, zy);
+                            content.newLineAtOffset(3 + zx + delta2 * i, zy);
                             content.showText(addressInfo.zipCode.substring(i, i + 1));
                             content.endText();
                         }
